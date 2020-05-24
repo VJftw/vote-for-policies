@@ -1,7 +1,6 @@
 ---
+title: Contact
 ---
-
-# Contact
 
 We’d love to hear from you and we’ll do our best to reply as soon as possible.
 
