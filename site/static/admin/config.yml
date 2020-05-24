@@ -1,0 +1,19 @@
+backend:
+  name: github
+  repo: VJftw/vote-for-policies
+media_folder: site/static/uploads
+public_folder: /uploads
+locale: "en"
+collections:
+  - name: "blog"
+    label: "Blog"
+    folder: "site/content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    editor:
+      preview: true
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Body", name: "body", widget: "markdown" }

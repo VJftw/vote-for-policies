@@ -1,0 +1,48 @@
+<div class="masthead" role="banner">
+    <div class="l-constrain l-constrain--pad-up l-constrain--relative-desktop">
+        <div class="masthead__logo">
+            <a href="/" class="brand brand--white">
+                <span class="u-visuallyhidden">{{ .Site.Title }}</span>
+                <i class="icon logo--white"></i>
+            </a>
+        </div>
+
+        <button type="button" class="btn btn--navigation" id="navigation-toggle" @click="navExpanded = !navExpanded"
+            aria-controls="navigation" aria-haspopup="true">
+            <i class="icon nav-burger"></i>
+        </button>
+
+        <nav id="navigation" role="navigation" class="navigation" :class="{ 'navigation--collapsed' : !navExpanded }">
+            <ul id="main-menu" class="list-plain topMenu">
+                <li id="menu-item-957" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-957"><a
+                        href="/donate"><span>Support us</span></a></li>
+                <li id="menu-item-951"
+                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-951">
+                    <a href="/about"><span>About</span></a>
+                    <ul class="sub-menu">
+                        <li id="menu-item-973"
+                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-973"><a
+                                href="/about/faq"><span>FAQ</span></a></li>
+                        <li id="menu-item-970"
+                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-970"><a
+                                href="/about/delivery-plan"><span>Our plan</span></a>
+                        </li>
+                        <li id="menu-item-971"
+                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-971"><a
+                                href="/about/our-partners"><span>Partners</span></a>
+                        </li>
+                        <li id="menu-item-972"
+                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-972"><a
+                                href="/about/team"><span>Team</span></a></li>
+                    </ul>
+                </li>
+                <li id="menu-item-992" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-992"><a
+                        href="/about/faq"><span>FAQ</span></a></li>
+                <li id="menu-item-950" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-950"><a
+                        href="/blog"><span>Blog</span></a></li>
+                <li id="menu-item-956" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-956"><a
+                        href="/contact"><span>Contact</span></a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
