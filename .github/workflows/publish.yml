@@ -23,7 +23,6 @@ jobs:
         run: npm install
 
       - name: Build
-        working-directory: website
         run: scripts/frontend/build.sh
 
       - name: Configure AWS credentials
