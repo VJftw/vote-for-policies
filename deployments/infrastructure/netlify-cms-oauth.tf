@@ -51,6 +51,34 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
   policy_arn = aws_iam_policy.netlifycmsoauth_logging.arn
 }
 
+data "aws_caller_identity" "current" {}
+
+resource "aws_iam_policy" "netlifycmsoauth_ssm" {
+  name        = "netlifycmsoauth_ssm"
+  path        = "/"
+  description = "IAM policy for ssm from a lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "ssm:GetParameter"
+      ],
+      "Resource": "arn:aws:ssm:eu-west-1:${data.aws_caller_identity.current.account_id}:parameter/${local.safe_base_dns}/*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_ssm" {
+  role       = aws_iam_role.netlifycmsoauth.name
+  policy_arn = aws_iam_policy.netlifycmsoauth_ssm.arn
+}
+
 resource "aws_lambda_function" "netlifycmsoauth" {
   function_name = "netlifycmsoauth-${local.safe_base_dns}"
   role          = aws_iam_role.netlifycmsoauth.arn
