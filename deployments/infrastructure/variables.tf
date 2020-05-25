@@ -12,3 +12,8 @@ variable "github_id" {
   type = string
   description = "the GitHub OAuth2 ID"
 }
+
+variable "github_secret_ssm_path" {
+  type = string
+  description = "the GitHub OAuth2 Secret stored in AWS SSM Parameter store"
+}
