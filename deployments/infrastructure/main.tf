@@ -18,7 +18,7 @@ terraform {
     key            = "terraform.tfstate"
     dynamodb_table = "vfp-dev-terraform-state-lock"
     encrypt        = true
-    }
+  }
 }
 
 

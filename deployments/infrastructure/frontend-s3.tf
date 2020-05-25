@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "client" {
+resource "aws_s3_bucket" "frontend" {
   bucket = local.safe_base_dns
   acl    = "public-read"
 
@@ -28,14 +28,5 @@ EOF
 
   tags = {
     Name = local.safe_base_dns
-  }
-}
-
-resource "aws_s3_bucket" "api" {
-  bucket = "api.${local.safe_base_dns}"
-  acl    = "private"
-
-  tags = {
-    Name = "api.${local.safe_base_dns}"
   }
 }
