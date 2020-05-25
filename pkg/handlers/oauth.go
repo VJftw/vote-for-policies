@@ -48,8 +48,10 @@ func init() {
 	sess := session.Must(session.NewSession())
 	ssmSvc := ssm.New(sess)
 
+	ssmParamPath := os.Getenv("GITHUB_SECRET_SSM_PATH")
+
 	paramRes, err := ssmSvc.GetParameter(&ssm.GetParameterInput{
-		Name:           aws.String("/vfp-vjpatel-me/github-secret"),
+		Name:           aws.String(ssmParamPath),
 		WithDecryption: aws.Bool(true),
 	})
 	if err != nil {
