@@ -1,0 +1,4 @@
+{
+  "name": "{{ .Params.name }}",
+  "permalink" : "{{ .Permalink }}"
+}
