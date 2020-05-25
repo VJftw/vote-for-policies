@@ -1,6 +1,7 @@
 backend:
   name: github
   repo: VJftw/vote-for-policies
+  base_url: https://netlifycmsoauth.vfp.vjpatel.me
 publish_mode: editorial_workflow # make a PR
 media_folder: site/static/uploads
 public_folder: /uploads

@@ -1,7 +1,16 @@
 resource "aws_cloudfront_distribution" "frontend" {
   origin {
-    domain_name = aws_s3_bucket.frontend.bucket_regional_domain_name
-    origin_id   = "S3-${local.safe_base_dns}"
+    domain_name = aws_s3_bucket.frontend.website_endpoint
+    origin_id   = "origin-${local.safe_base_dns}"
+
+    custom_origin_config {
+      origin_protocol_policy = "http-only"
+
+      http_port  = "80"
+      https_port = "443"
+
+      origin_ssl_protocols = ["TLSv1.2"]
+    }
   }
 
   enabled             = true
@@ -20,7 +29,7 @@ resource "aws_cloudfront_distribution" "frontend" {
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = "S3-${local.safe_base_dns}"
+    target_origin_id = "origin-${local.safe_base_dns}"
 
     forwarded_values {
       query_string = false
