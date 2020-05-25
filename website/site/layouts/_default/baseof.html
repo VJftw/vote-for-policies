@@ -1,31 +1,47 @@
 <!DOCTYPE html>
 <html lang="en-GB">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>{{ .Site.Title }}</title>
+    {{ with .Site.Params.meta.description }}
+    <meta name="description" content="{{ . }}" />
+    {{ end }} {{ with .Site.Params.meta.keywords }}
+    <meta name="keywords" content="{{ . }}" />
+    {{ end }}
+    <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
 
     <!-- IE8 unsupported -->
 
-    <link rel="stylesheet" href="/css/dist.css" />
+    <!-- <link rel="stylesheet" href="/css/dist.css" />
 
-    <script src="/js/dist.js"></script>
+    <script src="/js/dist.js"></script> -->
 
-    <link rel="canonical" href="https://voteforpolicies.org.uk/" />
-    <link rel='shortlink' href='https://voteforpolicies.org.uk/' />
+    <link rel="canonical" href="{{ .Site.BaseURL }}" />
+    <link rel="shortlink" href="{{ .Site.BaseURL }}" />
 
-</head>
+    {{ $stylesheet := .Site.Data.webpack.main }} {{ with $stylesheet.css }}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var link = document.createElement("link");
+        link.href = "{{ relURL . }}";
+        link.type = "text/css";
+        link.rel = "stylesheet";
 
-<body class="home page-template-default page page-id-657" x-data="{ navExpanded: false }">
+        document.getElementsByTagName("head")[0].appendChild(link);
+      });
+    </script>
+    {{ end }} {{ $script := .Site.Data.webpack.main }} {{ with $script.js }}
+    <script src="{{ relURL . }}" defer async></script>
+    {{ end }}
+  </head>
+
+  <body>
     {{ partial "nav.html" . }}
 
-    <div role="main" class="">
-        {{ block "main" . }} {{ end }}
+    <div class="container">
+      {{ block "main" . }} {{ end }}
     </div>
 
-
-    {{ partial "footer.html" . }}
-</body>
-
+    <!-- {{ partial "footer.html" . }} -->
+  </body>
 </html>

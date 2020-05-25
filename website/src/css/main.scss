@@ -3,6 +3,10 @@
 // Import a Google Font
 // @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 
+$green: #55832a;
+$primary: $green;
+
+
 // Set your brand colors
 // $purple: #8A4D76;
 // $pink: #FA7C91;
@@ -25,7 +29,7 @@
 // $input-border-color: transparent;
 // $input-shadow: none;
 
-$footer-background-color: #FFF;
+// $footer-background-color: #FFF;
 
 @import "../../node_modules/bulma/bulma.sass";
 

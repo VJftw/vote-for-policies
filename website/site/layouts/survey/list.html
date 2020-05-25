@@ -1,0 +1,72 @@
+{{ define "main" }}
+<section class="section">
+  <div class="container has-text-centered">
+    <h1 class="title">{{ .Title }}</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="columns">
+    <div class="column is-full">
+      <div class="container">
+
+        {{ $categories := slice "education" "environment" }}
+
+        {{ $policyPages := slice }}
+
+        {{ range where .Site.Pages "Type" "policy" }}
+            {{ if .Params.name  }}
+              {{ $policyPages = $policyPages | append . }}
+            {{ end }}
+        {{ end }}
+
+        <!-- {{ range $policyPages }}
+          {{ printf "%s: %s" .File.Path .Params.name }}<br />
+        {{ end }} -->
+
+        <form method="post" action="https://postresults.vfp.vjpatel.me/">
+        {{ range $catIndex, $catName := $categories }}
+          <section class="section">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title">
+                  {{ $catName }}
+                </p>
+              </header>
+              <div class="card-content">
+
+          {{ $categoryPolicies := slice }}
+          {{ range $policyPages }}
+            {{ $partyCategoryPolicies := index .Params.policiesByCategory $catName }}
+            {{ $partySha := sha256 .Params.name }}
+            {{ range $partyCategoryPolicies }}
+              {{ $partyCategoryPolicyValueSha := sha256 . }}
+              {{ $partyCategoryPolicyID := printf "%s-%s" $partyCategoryPolicyValueSha $partySha }}
+              <div class="field">
+                <div class="control">
+                <label class="radio">
+                  <input type="radio" name="{{ $catName }}" value="{{ $partyCategoryPolicyID }}" >
+                  {{ . }}
+                </label>
+              </div>
+              </div>
+              
+              {{ $partyCategoryPolicy := dict "id" $partyCategoryPolicyID "value" . }}
+
+              {{ $categoryPolicies = $categoryPolicies | append $partyCategoryPolicy }}
+            {{ end }}
+          {{ end }}
+          <!-- {{ printf "%s: %+v" $catName $categoryPolicies }}<br /> -->
+              </div>
+            </div>
+          </section>
+        {{ end }}
+        <div class="control">
+          <button class="button is-primary" type="submit">Submit</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}

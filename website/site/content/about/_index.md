@@ -1,5 +1,7 @@
 ---
 title: About
+menu: "main"
+weight: 80
 ---
 
 Vote for Policies is a not-for-profit organisation run by volunteers. We are independent and have no connection with any political party or candidate in any way. Our mission is to increase turnout in elections. Our method for achieving this is by helping voters make an informed, unbiased decision about who to vote for. And it works. According to a [national poll in 2015](/blog/national-poll-from-tns-reveals-most-popular-policies/#impact) 35% are more likely to vote after using Vote for Policies.

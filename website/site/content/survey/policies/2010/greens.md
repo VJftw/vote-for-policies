@@ -3,5 +3,9 @@ name: The Green Party
 logo: ""
 policiesByCategory:
   environment:
-    - "gree"
+    - "i like environment"
+    - "i also like environment"
+  education:
+    - "i like education"
+    - "i also like education"
 ---

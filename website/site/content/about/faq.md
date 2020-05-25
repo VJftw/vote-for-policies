@@ -1,5 +1,7 @@
 ---
 title: FAQ
+menu: "main"
+weight: 40
 tableOfContents: true
 ---
 

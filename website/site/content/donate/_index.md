@@ -1,5 +1,8 @@
 ---
 title: Time to redesign democracy
+menu: "main"
+menu_title: Support us
+weight: 100
 ---
 
 We all want a fair and just society where every one of us can thrive. For that to happen, everyone should have a say in what happens – and have access to the truth. So when as many as 24 million don’t vote, it’s clear something has gone drastically wrong.

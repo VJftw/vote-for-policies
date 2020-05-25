@@ -1,5 +1,7 @@
 ---
 title: Contact
+menu: "main"
+weight: 0
 ---
 
 We’d love to hear from you and we’ll do our best to reply as soon as possible.
