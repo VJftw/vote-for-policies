@@ -3,13 +3,13 @@ backend:
   repo: VJftw/vote-for-policies
   base_url: https://netlifycmsoauth.vfp.vjpatel.me
 publish_mode: editorial_workflow # make a PR
-media_folder: site/static/uploads
+media_folder: website/site/static/uploads
 public_folder: /uploads
 locale: "en"
 collections:
   - name: "blog"
     label: "Blog"
-    folder: "site/content/blog"
+    folder: "website/site/content/blog"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     editor:
@@ -21,7 +21,7 @@ collections:
       - { label: "Body", name: "body", widget: "markdown" }
   - name: "about"
     label: "About"
-    folder: "site/content/about"
+    folder: "website/site/content/about"
     create: true
     slug: "{{slug}}"
     editor:
@@ -31,7 +31,7 @@ collections:
       - { label: "Body", name: "body", widget: "markdown" }
   - name: "contact"
     label: "Contact"
-    folder: "site/content/contact"
+    folder: "website/site/content/contact"
     create: true
     slug: "{{slug}}"
     editor:
@@ -41,7 +41,7 @@ collections:
       - { label: "Body", name: "body", widget: "markdown" }
   - name: "donate"
     label: "Donate"
-    folder: "site/content/donate"
+    folder: "website/site/content/donate"
     create: true
     slug: "{{slug}}"
     editor:
