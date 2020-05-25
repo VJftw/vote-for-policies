@@ -6,6 +6,9 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/ssm"
 	"github.com/gin-gonic/gin"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
@@ -40,11 +43,24 @@ if (!window.opener) {
 </script></head><body></body></html>`
 
 func init() {
+	sess := session.Must(session.NewSession())
+	ssmSvc := ssm.New(sess)
+
+	paramRes, err := ssmSvc.GetParameter(&ssm.GetParameterInput{
+		Name:           aws.String("/vfp-vjpatel-me/github-secret"),
+		WithDecryption: aws.Bool(true),
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	githubSecret := aws.StringValue(paramRes.Parameter.Value)
+
 	host := os.Getenv("HOST")
 	goth.UseProviders(
 		github.New(
-			os.Getenv("GITHUB_ID"), os.Getenv("GITHUB_SECRET"),
-			fmt.Sprintf("https://%s/callback/github", host),
+			os.Getenv("GITHUB_ID"), githubSecret,
+			fmt.Sprintf("https://%s/auth/github/callback", host),
 		),
 	)
 }

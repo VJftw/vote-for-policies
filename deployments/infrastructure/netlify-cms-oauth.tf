@@ -25,6 +25,13 @@ resource "aws_lambda_function" "netlifycmsoauth" {
   s3_bucket     = aws_s3_bucket.backend.bucket
   s3_key        = "lambda_netlifycmsoauth_${var.backend_version}.zip"
   runtime       = "go1.x"
+
+  environment {
+      variables = {
+          HOST = aws_api_gateway_domain_name.netlifycmsoauth.domain_name
+          GITHUB_ID = "4d38823fadf0ac2f4cef"
+      }
+  }
 }
 
 resource "aws_api_gateway_rest_api" "netlifycmsoauth" {
