@@ -17,10 +17,6 @@ jobs:
 
       - name: Check out code
         uses: actions/checkout@v2
-        
-      - name: Get dependencies
-        working-directory: website
-        run: npm install
 
       - name: Build
         run: scripts/frontend/build.sh
