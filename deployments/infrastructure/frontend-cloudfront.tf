@@ -16,6 +16,7 @@ resource "aws_cloudfront_distribution" "frontend" {
   #   }
 
   aliases = ["${var.base_dns}"]
+
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
@@ -34,15 +35,21 @@ resource "aws_cloudfront_distribution" "frontend" {
     min_ttl     = 0
     default_ttl = 3600
     max_ttl     = 86400
+
+    compress = true
   }
+
   price_class = "PriceClass_All"
+
   tags = {
     Name = "${local.safe_base_dns}"
   }
+
   viewer_certificate {
     acm_certificate_arn = aws_acm_certificate.frontend.arn
     ssl_support_method  = "sni-only"
   }
+
   restrictions {
     geo_restriction {
       restriction_type = "none"

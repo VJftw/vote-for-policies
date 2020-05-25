@@ -1,0 +1,63 @@
+---
+name: Publish
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  frontend:
+    name: Publish Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Check out code
+        uses: actions/checkout@v2
+        
+      - name: Get dependencies
+        working-directory: website
+        run: npm install
+
+      - name: Build
+        working-directory: website
+        run: scripts/frontend/build.sh
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Deploy
+        run: scripts/frontend/deploy.sh
+
+  backend:
+    name: Publish Backend + Infrastructure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go 1.14
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.14
+        id: go
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: scripts/backend/build.sh
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+  
+      - name: Deploy
+        run: scripts/backend/deploy.sh

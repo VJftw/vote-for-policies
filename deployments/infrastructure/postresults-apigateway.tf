@@ -64,10 +64,6 @@ resource "aws_lambda_permission" "apigw" {
   source_arn = "${aws_api_gateway_deployment.postresults.execution_arn}/*/*"
 }
 
-output "base_url" {
-  value = "${aws_api_gateway_deployment.postresults.invoke_url}"
-}
-
 resource "aws_api_gateway_base_path_mapping" "base_path_mapping" {
   api_id     = aws_api_gateway_rest_api.postresults.id
   stage_name = "production"

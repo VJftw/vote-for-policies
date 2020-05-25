@@ -6,6 +6,8 @@ version=$(git describe --always)
 
 rm -rf "dist/"
 
+go mod vendor
+
 for go_main in ${go_mains}; do
   bin_name="${go_main//\//_}"
   bin_name="${bin_name//_main.go/}"

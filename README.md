@@ -1,6 +1,6 @@
 # vote-for-policies
 
 
-## `site/`
+## `website/site/`
 
 Hugo site with Netlify CMS

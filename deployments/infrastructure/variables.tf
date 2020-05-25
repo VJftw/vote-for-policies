@@ -6,5 +6,4 @@ variable "base_dns" {
 variable "backend_version" {
   type = string
   description = "the version of lambdas to use"
-  default = "0e0288c"
 }
