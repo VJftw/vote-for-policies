@@ -66,7 +66,7 @@ resource "aws_iam_policy" "netlifycmsoauth_ssm" {
       "Action": [
         "ssm:GetParameter"
       ],
-      "Resource": "arn:aws:ssm:eu-west-1:${data.aws_caller_identity.current.account_id}:parameter/${local.safe_base_dns}/*",
+      "Resource": "arn:aws:ssm:us-east-1:${data.aws_caller_identity.current.account_id}:parameter/${local.safe_base_dns}/*",
       "Effect": "Allow"
     }
   ]
@@ -90,7 +90,8 @@ resource "aws_lambda_function" "netlifycmsoauth" {
   environment {
       variables = {
           HOST = aws_api_gateway_domain_name.netlifycmsoauth.domain_name
-          GITHUB_ID = "4d38823fadf0ac2f4cef"
+          GITHUB_ID = var.github_id
+          TARGET_ORIGIN = "https://${var.base_dns}"
       }
   }
 }

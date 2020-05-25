@@ -7,3 +7,8 @@ variable "backend_version" {
   type = string
   description = "the version of lambdas to use"
 }
+
+variable "github_id" {
+  type = string
+  description = "the GitHub OAuth2 ID"
+}

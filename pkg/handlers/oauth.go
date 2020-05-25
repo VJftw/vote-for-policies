@@ -26,10 +26,10 @@ if (!window.opener) {
 (function(status, provider, result) {
   function receiveMessage(e) {
 	console.log("Receive message:", e);
-	// send message to main window with da app
+	// send message to main window
 	window.opener.postMessage(
-	  "authorization:" + provider + ":" + status + ":" + result,
-	  e.origin
+	  "authorization:" + provider + ":" + status + ":" + JSON.stringify(result),
+	  "%s",
 	);
   }
   window.addEventListener("message", receiveMessage, false);
@@ -37,10 +37,12 @@ if (!window.opener) {
   console.log("Sending message:", provider)
   window.opener.postMessage(
 	"authorizing:" + provider,
-	"*"
+	"%s",
   );
 })("%s", "%s", %s)
 </script></head><body></body></html>`
+
+var TargetOrigin = "*"
 
 func init() {
 	sess := session.Must(session.NewSession())
@@ -57,10 +59,13 @@ func init() {
 	githubSecret := aws.StringValue(paramRes.Parameter.Value)
 
 	host := os.Getenv("HOST")
+
+	TargetOrigin = os.Getenv("TARGET_ORIGIN")
 	goth.UseProviders(
 		github.New(
 			os.Getenv("GITHUB_ID"), githubSecret,
 			fmt.Sprintf("https://%s/auth/github/callback", host),
+			"repo",
 		),
 	)
 }
@@ -91,7 +96,7 @@ func OAuthAuthProviderCallback(c *gin.Context) {
 	}
 	c.Writer.Header().Set("Content-Type", "text/html; charset=utf-8")
 	c.Writer.WriteHeader(http.StatusOK)
-	c.Writer.Write([]byte(fmt.Sprintf(script, status, provider, result)))
+	c.Writer.Write([]byte(fmt.Sprintf(script, TargetOrigin, TargetOrigin, status, provider, result)))
 }
 
 func OAuthLogoutProvider(c *gin.Context) {
