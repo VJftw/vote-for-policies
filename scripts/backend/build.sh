@@ -8,14 +8,11 @@ rm -rf "dist/"
 
 go mod vendor
 
-for go_main in ${go_mains}; do
-  bin_name="${go_main//\//_}"
-  bin_name="${bin_name//_main.go/}"
-  bin_name="${bin_name//._cmd_/}"
-  bin_name="${bin_name}_${version}"
-  echo "-> compiling ${bin_name}"
-  CGO_ENABLED=0 go build -ldflags "-X github.com/VJftw/vote-for-policies/pkg/cmd.BuildVersion=${version}" -o "dist/${bin_name}/main" "${go_main}"
+lambda=$1
+main_path="cmd/lambda/${lambda}/main.go"
+bin_name="${version}_${lambda}"
 
-  zip -j "dist/${bin_name}.zip" "dist/${bin_name}/main"
-done
+echo "-> compiling ${bin_name}"
+CGO_ENABLED=0 go build -ldflags "-X github.com/VJftw/vote-for-policies/pkg/cmd.BuildVersion=${version}" -o "dist/${bin_name}/main" "${main_path}"
 
+zip -j "dist/${bin_name}.zip" "dist/${bin_name}/main"

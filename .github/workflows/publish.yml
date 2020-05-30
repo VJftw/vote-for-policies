@@ -32,7 +32,8 @@ jobs:
         run: scripts/frontend/deploy.sh
 
   backend:
-    name: Publish Backend + Infrastructure
+    name: Publish Postresults
+    needs: [frontend]
     runs-on: ubuntu-latest
     steps:
       - name: Set up Go 1.14
@@ -45,7 +46,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build
-        run: scripts/backend/build.sh
+        run: scripts/backend/build.sh postresults
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -55,4 +56,4 @@ jobs:
           aws-region: us-east-1
   
       - name: Deploy
-        run: scripts/backend/deploy.sh
+        run: scripts/backend/deploy.sh postresults

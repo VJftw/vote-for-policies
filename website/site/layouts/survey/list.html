@@ -23,8 +23,7 @@
         <!-- {{ range $policyPages }}
           {{ printf "%s: %s" .File.Path .Params.name }}<br />
         {{ end }} -->
-
-        <form method="post" action="https://postresults.vfp.vjpatel.me/">
+        <form method="post" action={{ if eq (getenv "NODE_ENV") "development" }}"http://localhost:3001"{{ else }}"https://postresults.voteforpolicies.vjpatel.me/"{{ end }}>
         {{ range $catIndex, $catName := $categories }}
           <section class="section">
             <div class="card">
@@ -41,7 +40,8 @@
             {{ $partySha := sha256 .Params.name }}
             {{ range $partyCategoryPolicies }}
               {{ $partyCategoryPolicyValueSha := sha256 . }}
-              {{ $partyCategoryPolicyID := printf "%s-%s" $partyCategoryPolicyValueSha $partySha }}
+              <!-- {{ $partyCategoryPolicyID := printf "%s-%s" $partyCategoryPolicyValueSha $partySha }} -->
+              {{ $partyCategoryPolicyID := $partySha }}
               <div class="field">
                 <div class="control">
                 <label class="radio">

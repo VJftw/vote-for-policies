@@ -1,4 +1,0 @@
-
-
-## Pre-reqs
-DNS Zone

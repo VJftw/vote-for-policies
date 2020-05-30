@@ -1,6 +1,14 @@
 #!/bin/bash -e
 
-frontend_bucket="vfp-vjpatel-me"
+cwd="${PWD}"
+cd deployments/terraform
+terraform init
+export TF_VAR_lambda_zip_version="${version}"
+terraform apply --auto-approve --target="module.frontend"
+cd "${cwd}"
+
+frontend_bucket="voteforpolicies-dev-frontend-origin"
+
 
 echo "-> uploading website"
 aws s3 cp website/dist/. "s3://${frontend_bucket}" --acl public-read --recursive --cache-control max-age=120

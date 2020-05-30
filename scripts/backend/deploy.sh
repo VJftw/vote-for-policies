@@ -2,21 +2,26 @@
 
 version=$(git describe --always)
 
-lambda_bucket="backend-vfp-vjpatel-me"
-echo "-> uploading lambdas"
+lambda=$1
 
-lambda_archives=$(find dist/ -name "*${version}.zip")
+cwd="${PWD}"
+cd deployments/terraform
+terraform init
+export TF_VAR_lambda_zip_version="${version}"
+terraform apply --auto-approve --target="module.${lambda}.module.lambda.aws_s3_bucket.lambda"
+cd "${cwd}"
 
-for lambda in $lambda_archives; do
-  dest_lambda="${lambda//dist\//}"
-  echo "-> ${dest_lambda}"
-  aws s3 cp "${lambda}" "s3://${lambda_bucket}/${dest_lambda}"
-done
+lambda_bucket="voteforpolicies-dev-${lambda}"
+
+echo "-> uploading lambda"
+aws s3 cp "dist/${version}_${lambda}.zip" "s3://${lambda_bucket}/${version}_${lambda}.zip"
 
 echo "-> Running Terraform"
 
-cd deployments/infrastructure
-
+cd deployments/terraform
 terraform init
-export TF_VAR_backend_version="${version}"
-terraform apply --auto-approve
+export TF_VAR_lambda_zip_version="${version}"
+terraform apply --auto-approve --target="module.${lambda}"
+
+
+# TODO: remove previous release non release tagged lambdas
