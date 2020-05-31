@@ -63,5 +63,5 @@ func (h *Handler) PostResults(c *gin.Context) {
 	}
 
 	// redirect
-	c.Redirect(http.StatusSeeOther, fmt.Sprintf("%s/%s", h.originAddress, keyPath))
+	c.Redirect(http.StatusSeeOther, fmt.Sprintf("%s%s", h.originAddress, keyPath))
 }

@@ -31,7 +31,7 @@ module "results_table" {
   name        = module.postresults_label.name
   environment = module.postresults_label.environment
 
-  hash_key     = "ID"
+  hash_key     = "id"
   billing_mode = "PAY_PER_REQUEST"
   #   autoscale_write_target       = 50
   #   autoscale_read_target        = 50
