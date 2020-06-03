@@ -31,8 +31,12 @@ func init() {
 	awsSession := session.Must(session.NewSession())
 	// dynamodbConfig := &aws.Config{Endpoint: aws.String("https://test.us-west-2.amazonaws.com")}
 	resultStorage := result.NewDynamoDB(awsSession, os.Getenv("DYNAMODB_TABLE"))
+	renderer, err := result.NewRenderer()
+	if err != nil {
+		log.Fatal(err)
+	}
 	s3Origin := result.NewS3(awsSession, os.Getenv("RESULTS_BUCKET"), os.Getenv("RESULTS_BUCKET_KEY_PREFIX"))
-	h := handler.New(resultStorage, s3Origin, os.Getenv("ORIGIN_ADDRESS"))
+	h := handler.New(resultStorage, renderer, s3Origin, os.Getenv("ORIGIN_ADDRESS"))
 
 	r.POST("/", h.PostResults)
 }

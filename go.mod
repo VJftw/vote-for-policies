@@ -10,4 +10,5 @@ require (
 	github.com/gin-gonic/gin v1.6.3
 	github.com/google/uuid v1.1.1
 	github.com/markbates/goth v1.64.1
+	github.com/rakyll/statik v0.1.7
 )

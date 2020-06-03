@@ -6,34 +6,8 @@ on:
       - master
 
 jobs:
-  frontend:
-    name: Publish Frontend
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.x
-
-      - name: Check out code
-        uses: actions/checkout@v2
-
-      - name: Build
-        run: scripts/frontend/build.sh
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-
-      - name: Deploy
-        run: scripts/frontend/deploy.sh
-
-  backend:
-    name: Publish Postresults
-    needs: [frontend]
+  all:
+    name: Publish
     runs-on: ubuntu-latest
     steps:
       - name: Set up Go 1.14
@@ -41,12 +15,11 @@ jobs:
         with:
           go-version: 1.14
         id: go
-
-      - name: Check out code
-        uses: actions/checkout@v2
-
-      - name: Build
-        run: scripts/backend/build.sh postresults
+  
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -54,6 +27,27 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-  
-      - name: Deploy
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Build NetlifyCMS OAuth
+        run: scripts/backend/build.sh netlifycmsoauth
+
+      - name: Deploy NetlifyCMS OAuth
+        run: scripts/backend/deploy.sh netlifycmsoauth
+
+      - name: Build VoteForPolicies Frontend
+        run: scripts/frontend/build.sh
+
+      - name: Deploy VoteForPolicies Frontend
+        run: scripts/frontend/deploy.sh
+
+      - name: Deploy VoteForPolicies Go Frontend
+        run: scripts/frontend/go-build.sh
+      
+      - name: Build VoteForPolicies PostResults
+        run: scripts/backend/build.sh postresults
+
+      - name: Deploy VoteForPolicies PostResults
         run: scripts/backend/deploy.sh postresults

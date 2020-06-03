@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -47,14 +46,19 @@ func (h *Handler) PostResults(c *gin.Context) {
 		return
 	}
 
-	// TODO: render
-
-	// push to s3
-	jsonBytes, err := json.Marshal(res)
+	// render
+	bodyStr, err := h.renderer.RenderResult(res)
 	if err != nil {
 		log.Println(err)
+		c.JSON(500, err)
 	}
-	body := strings.NewReader(string(jsonBytes))
+
+	// push to s3
+	// jsonBytes, err := json.Marshal(res)
+	// if err != nil {
+	// 	log.Println(err)
+	// }
+	body := strings.NewReader(bodyStr)
 	keyPath, err := h.origin.Save(fmt.Sprintf("%s/index.html", res.ID), body)
 	if err != nil {
 		log.Println(err)

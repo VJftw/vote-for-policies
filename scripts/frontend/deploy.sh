@@ -4,6 +4,7 @@ cwd="${PWD}"
 cd deployments/terraform
 terraform init
 export TF_VAR_lambda_zip_version="${version}"
+export TF_IN_AUTOMATION="true"
 terraform apply --auto-approve --target="module.frontend"
 cd "${cwd}"
 
