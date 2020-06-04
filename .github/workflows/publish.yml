@@ -31,12 +31,6 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Build NetlifyCMS OAuth
-        run: scripts/backend/build.sh netlifycmsoauth
-
-      - name: Deploy NetlifyCMS OAuth
-        run: scripts/backend/deploy.sh netlifycmsoauth
-
       - name: Build VoteForPolicies Frontend
         run: scripts/frontend/build.sh
 
@@ -45,7 +39,13 @@ jobs:
 
       - name: Deploy VoteForPolicies Go Frontend
         run: scripts/frontend/go-build.sh
-      
+
+      - name: Build NetlifyCMS OAuth
+        run: scripts/backend/build.sh netlifycmsoauth
+
+      - name: Deploy NetlifyCMS OAuth
+        run: scripts/backend/deploy.sh netlifycmsoauth
+
       - name: Build VoteForPolicies PostResults
         run: scripts/backend/build.sh postresults
 
