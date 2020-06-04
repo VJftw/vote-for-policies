@@ -11,15 +11,20 @@ import (
 	"github.com/google/uuid"
 )
 
+// PostResults handles the POST of results request
 func (h *Handler) PostResults(c *gin.Context) {
 	err := c.Request.ParseForm()
 	if err != nil {
 		log.Println(err)
+		c.JSON(500, err)
+		return
 	}
 
 	id, err := uuid.NewRandom()
 	if err != nil {
 		log.Println(err)
+		c.JSON(500, err)
+		return
 	}
 
 	res := &result.Result{
@@ -40,10 +45,13 @@ func (h *Handler) PostResults(c *gin.Context) {
 		res.Party[party]++
 	}
 
-	if err := h.storage.Save(res); err != nil {
-		log.Println(err)
-		c.JSON(500, err)
-		return
+	// persist async
+	waitPersist := make(chan struct{})
+	go func() {
+		if err := h.storage.Save(res); err != nil {
+			log.Println(err)
+		}
+		close(waitPersist)
 	}
 
 	// render
@@ -51,13 +59,10 @@ func (h *Handler) PostResults(c *gin.Context) {
 	if err != nil {
 		log.Println(err)
 		c.JSON(500, err)
+		return
 	}
 
 	// push to s3
-	// jsonBytes, err := json.Marshal(res)
-	// if err != nil {
-	// 	log.Println(err)
-	// }
 	body := strings.NewReader(bodyStr)
 	keyPath, err := h.origin.Save(fmt.Sprintf("%s/index.html", res.ID), body)
 	if err != nil {
@@ -68,4 +73,7 @@ func (h *Handler) PostResults(c *gin.Context) {
 
 	// redirect
 	c.Redirect(http.StatusSeeOther, fmt.Sprintf("%s%s", h.originAddress, keyPath))
+
+	<-waitPersist
 }
+

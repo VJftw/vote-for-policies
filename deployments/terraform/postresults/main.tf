@@ -20,6 +20,7 @@ module "lambda" {
     RESULTS_BUCKET = var.s3_bucket
     RESULTS_BUCKET_KEY_PREFIX = "/results"
     ORIGIN_ADDRESS = "https://${var.base_dns}"
+    GIN_MODE = "release"
   }
 }
 

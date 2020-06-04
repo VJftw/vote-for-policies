@@ -6,31 +6,25 @@ import (
 	"html/template"
 	"io/ioutil"
 	"net/http"
-	"os"
 
 	// static files
 	_ "github.com/VJftw/vote-for-policies/pkg/voteforpolicies/result/statik"
 	"github.com/rakyll/statik/fs"
 )
 
+// Renderer represents a template renderer
 type Renderer struct {
 	baseTemplate *template.Template
 
 	resultTemplate *template.Template
 }
 
+// NewRenderer returns a new template renderer
 func NewRenderer() (*Renderer, error) {
 	statikFS, err := fs.New()
 	if err != nil {
 		return nil, fmt.Errorf("could not start statikFS: %w", err)
 	}
-
-	fs.Walk(statikFS, "/", func(path string, f os.FileInfo, err error) error {
-		if !f.IsDir() {
-			fmt.Println(f.Name())
-		}
-		return nil
-	})
 
 	baseTmpl, err := getFileTemplate(statikFS, "/base.html")
 	if err != nil {
@@ -47,28 +41,7 @@ func NewRenderer() (*Renderer, error) {
 		return nil, err
 	}
 
-	// baseReader, err := statikFS.Open("base.html")
-	// if err != nil {
-	// 	return nil, fmt.Errorf("could not open base file: %w", err)
-	// }
-	// defer baseReader.Close()
-	// baseNode, err := html.Parse(baseReader)
-	// if err != nil {
-	// 	return fmt.Errorf("could not parse base html: %w", err)
-	// }
-
-	// resultReader, err := statikFS.Open("result.html")
-	// if err != nil {
-	// 	return nil, fmt.Errorf("could not open result file: %w", err)
-	// }
-	// defer resultReader.Close()
-	// resultNode, err := html.Parse(resultReader)
-	// if err != nil {
-	// 	return fmt.Errorf("could not parse result html: %w", err)
-	// }
-
 	return &Renderer{
-		// baseTemplate: baseTemplate,
 		resultTemplate: resultTmpl,
 	}, nil
 }
@@ -101,6 +74,7 @@ func getFileTemplate(statikFS http.FileSystem, filename string) (*template.Templ
 	return tmpl, nil
 }
 
+// RenderResult renders a Result page
 func (r *Renderer) RenderResult(result *Result) (string, error) {
 	buf := &bytes.Buffer{}
 	if err := r.resultTemplate.Execute(buf, result); err != nil {

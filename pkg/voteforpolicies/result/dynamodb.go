@@ -9,11 +9,13 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 )
 
+// DynamoDB represents the DynamoDB results storage
 type DynamoDB struct {
 	svc       *dynamodb.DynamoDB
 	tableName *string
 }
 
+// NewDynamoDB returns a new DynamoDB results storage
 func NewDynamoDB(
 	sess *session.Session,
 	tableName string,
@@ -26,6 +28,7 @@ func NewDynamoDB(
 	}
 }
 
+// Save implements Storage.Save
 func (s *DynamoDB) Save(r *Result) error {
 	av, err := dynamodbattribute.MarshalMap(r)
 	if err != nil {

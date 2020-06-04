@@ -10,12 +10,15 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 )
 
+// S3 represents the S3 results storage
+// where rendered results HTML documents are stored
 type S3 struct {
 	svc        *s3.S3
 	bucketName *string
 	keyPrefix  string
 }
 
+// NewS3 returns an S3 results storage
 func NewS3(
 	sess *session.Session,
 	bucketName string,
@@ -30,6 +33,7 @@ func NewS3(
 	}
 }
 
+// Save saves the given HTML to S3 at the given key
 func (s *S3) Save(key string, body io.ReadSeeker) (string, error) {
 	key = filepath.Join(s.keyPrefix, key)
 	_, err := s.svc.PutObject(&s3.PutObjectInput{

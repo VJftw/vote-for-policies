@@ -21,7 +21,6 @@ var (
 
 func init() {
 	// stdout and stderr are sent to AWS CloudWatch Logs
-	log.Printf("Gin cold start")
 	r = gin.Default()
 
 	r.GET("/healthz", func(c *gin.Context) {
