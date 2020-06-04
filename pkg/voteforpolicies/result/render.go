@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"io/ioutil"
 	"net/http"
+	"os"
 
 	// static files
 	_ "github.com/VJftw/vote-for-policies/pkg/voteforpolicies/result/statik"
@@ -24,12 +25,12 @@ func NewRenderer() (*Renderer, error) {
 		return nil, fmt.Errorf("could not start statikFS: %w", err)
 	}
 
-	// fs.Walk(statikFS, "/", func(path string, f os.FileInfo, err error) error {
-	// 	if !f.IsDir() {
-	// 		fmt.Println(f.Name())
-	// 	}
-	// 	return nil
-	// })
+	fs.Walk(statikFS, "/", func(path string, f os.FileInfo, err error) error {
+		if !f.IsDir() {
+			fmt.Println(f.Name())
+		}
+		return nil
+	})
 
 	baseTmpl, err := getFileTemplate(statikFS, "/base.html")
 	if err != nil {
