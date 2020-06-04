@@ -8,8 +8,6 @@ rm -rf "dist/"
 
 go mod vendor
 
-statik -dest ./pkg/voteforpolicies/result -src website/dist/survey/index.html
-
 lambda=$1
 main_path="cmd/lambda/${lambda}/main.go"
 bin_name="${version}_${lambda}"
