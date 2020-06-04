@@ -37,7 +37,7 @@ jobs:
       - name: Deploy VoteForPolicies Frontend
         run: scripts/frontend/deploy.sh
 
-      - name: Deploy VoteForPolicies Go Frontend
+      - name: Build VoteForPolicies Go Frontend
         run: scripts/frontend/go-build.sh
 
       - name: Build NetlifyCMS OAuth

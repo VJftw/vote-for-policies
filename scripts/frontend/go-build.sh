@@ -10,6 +10,7 @@ cp "${baseTemplate}" "${baseTemplateDest}"
 sed -i '/id="result">/a {{ template "content" . }}' "${baseTemplateDest}"
 
 go get github.com/rakyll/statik
-statik -dest "${destGoPkgDir}" -src "${templatesDir}"
+gopath=$(go env | grep GOPATH | cut -f2 -d\")
+"${gopath}/bin/statik" -dest "${destGoPkgDir}" -src "${templatesDir}"
 
 rm "${baseTemplateDest}"
