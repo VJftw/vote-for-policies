@@ -52,7 +52,7 @@ func (h *Handler) PostResults(c *gin.Context) {
 			log.Println(err)
 		}
 		close(waitPersist)
-	}
+	}()
 
 	// render
 	bodyStr, err := h.renderer.RenderResult(res)
@@ -76,4 +76,3 @@ func (h *Handler) PostResults(c *gin.Context) {
 
 	<-waitPersist
 }
-
