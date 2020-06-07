@@ -1,13 +1,23 @@
 # vote-for-policies
 
-
-## `website/site/`
-
-Hugo site with Netlify CMS
+## Serverless Next.js
 
 
-## PostResults
+### Local development
 
+```sh
+$ npm install
+$ npm run dev
 ```
-docker run --rm -d -p 8000:8000 amazon/dynamodb-local
+
+### Deploy
+
+```sh
+$ npx serverless --debug
+```
+
+### Undeploy
+
+```sh
+$ npx serverless remove --debug
 ```
