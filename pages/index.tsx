@@ -8,7 +8,15 @@ export default function Survey() {
       <Head>
         <title>Survey | {siteTitle}</title>
       </Head>
-
+      <section className="hero">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title">
+              VJ's Test PR
+            </h1>
+          </div>
+        </div>
+        </section> 
     </Layout>
   )
 }
