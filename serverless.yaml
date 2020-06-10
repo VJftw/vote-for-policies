@@ -2,5 +2,4 @@
 voteForPolicies:
   component: serverless-next.js@1.13.0
   inputs:
-    domain:
-      - ${env.DEPLOY_DOMAIN}.survey.vfp.vjpatel.me
+    domain: [${env.DEPLOY_DOMAIN}.survey.vfp.vjpatel.me]

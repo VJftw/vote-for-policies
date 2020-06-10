@@ -1,0 +1,4 @@
+---
+voteForPolicies:
+  component: serverless-next.js@1.13.0
+  
