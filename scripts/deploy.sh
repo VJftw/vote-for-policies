@@ -28,7 +28,15 @@ aws s3 cp "${stateBucket}/${env}.tar.gz" . && tar -xzf "${env}.tar.gz" || echo "
 echo "-> Deploying to ${DEPLOY_DOMAIN}"
 
 # 2. Deploy
-npx serverless --debug
+npx serverless --debug 2>&1 | tee serverless.log
 
 # 3. Push state to S3
 tar -czf "${env}.tar.gz" ".serverless" && aws s3 cp "${env}.tar.gz" "${stateBucket}/${env}.tar.gz"
+
+# 4. Wait for Cloudfront deployment
+cloudfrontDomain=$(cat serverless.log | grep "cloudfront.net" | cut -f3 -d/ | cut -f1 -d. | head -n1)
+cloudfrontDomain="${cloudfrontDomain}.cloudfront.net"
+cloudfrontId=$(aws cloudfront list-distributions --output=text | grep "${cloudfrontDomain}" | cut -f2 | cut -f2 -d/)
+
+echo "-> Waiting for Cloudfront distribution '${cloudfrontId}' (https://${cloudfrontDomain}) to deploy"
+aws cloudfront wait distribution-deployed --id "${cloudfrontId}"
